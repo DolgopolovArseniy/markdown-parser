@@ -31,8 +31,7 @@ export function tokenize(rawText: string): Token[] {
 
   lines.forEach((line) => {
     if (isInCodeBlock) {
-      const codeBlockEndMatch = line.match(CODE_BLOCK_END_REGEX);
-      if (codeBlockEndMatch) {
+      if (CODE_BLOCK_END_REGEX.test(line)) {
         const text = codeLines.join('\n');
         tokens.push({ type: 'CodeBlock', text });
         isInCodeBlock = false;
@@ -46,8 +45,7 @@ export function tokenize(rawText: string): Token[] {
       return;
     }
 
-    const codeBlockStartMatch = line.match(CODE_BLOCK_START_REGEX);
-    if (codeBlockStartMatch) {
+    if (CODE_BLOCK_START_REGEX.test(line)) {
       isInCodeBlock = true;
 
       return;
@@ -79,8 +77,7 @@ export function tokenize(rawText: string): Token[] {
       return;
     }
 
-    const blankLineMatch = line.match(BLANK_LINE_REGEX);
-    if (blankLineMatch) {
+    if (BLANK_LINE_REGEX.test(line)) {
       tokens.push({ type: 'BlankLine' });
 
       return;
@@ -89,7 +86,7 @@ export function tokenize(rawText: string): Token[] {
     tokens.push({ type: 'Paragraph', text: line });
   });
 
-  if (isInCodeBlock && codeLines.length > 0) {
+  if (isInCodeBlock) {
     tokens.push({ type: 'CodeBlock', text: codeLines.join('\n') });
   }
 
