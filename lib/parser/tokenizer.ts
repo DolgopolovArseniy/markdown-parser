@@ -19,14 +19,41 @@ const HEADING_REGEX = /^(#{1,6}) (.+)/; // начинается с 1–6 '#', п
 const UNORDERED_LIST_REGEX = /^[-*] (.+)/; // начинается с '-' или '*', пробел, текст
 const ORDERED_LIST_REGEX = /^(\d+)\. (.+)/; // начинается с числа, точка, пробел, текст
 const BLANK_LINE_REGEX = /^\s*$/; // пустая строка или строка из пробелов/табов
+const CODE_BLOCK_START_REGEX = /^```\S*$/; // Открывающая строка: ```
+const CODE_BLOCK_END_REGEX = /^```$/; // Закрывающая строка только ```
 
 export function tokenize(rawText: string): Token[] {
   const lines = rawText.split('\n');
   const tokens: Token[] = [];
 
-  lines.forEach((line) => {
-    const headingMatch = line.match(HEADING_REGEX);
+  let isInCodeBlock = false;
+  let codeLines: string[] = [];
 
+  lines.forEach((line) => {
+    if (isInCodeBlock) {
+      const codeBlockEndMatch = line.match(CODE_BLOCK_END_REGEX);
+      if (codeBlockEndMatch) {
+        const text = codeLines.join('\n');
+        tokens.push({ type: 'CodeBlock', text });
+        isInCodeBlock = false;
+        codeLines = [];
+
+        return;
+      }
+
+      codeLines.push(line);
+
+      return;
+    }
+
+    const codeBlockStartMatch = line.match(CODE_BLOCK_START_REGEX);
+    if (codeBlockStartMatch) {
+      isInCodeBlock = true;
+
+      return;
+    }
+
+    const headingMatch = line.match(HEADING_REGEX);
     if (headingMatch) {
       const level = headingMatch[1].length as 1 | 2 | 3 | 4 | 5 | 6;
       const text = headingMatch[2];
@@ -59,6 +86,10 @@ export function tokenize(rawText: string): Token[] {
       return;
     }
   });
+
+  if (isInCodeBlock && codeLines.length > 0) {
+    tokens.push({ type: 'CodeBlock', text: codeLines.join('\n') });
+  }
 
   return tokens;
 }
