@@ -11,7 +11,10 @@ describe('tokenize', () => {
   // ─── BlankLine ─────────────────────────────────────────────────────────────
 
   it('should tokenize a blank line', () => {
-    expect(tokenize('\n')).toEqual([{ type: 'BlankLine' }, { type: 'BlankLine' }]);
+    expect(tokenize('\n')).toEqual([
+      { type: 'BlankLine' },
+      { type: 'BlankLine' },
+    ]);
   });
 
   it('should tokenize a whitespace-only line as BlankLine', () => {
@@ -21,15 +24,21 @@ describe('tokenize', () => {
   // ─── Heading ───────────────────────────────────────────────────────────────
 
   it('should tokenize an H1 heading', () => {
-    expect(tokenize('# Hello')).toEqual([{ type: 'Heading', level: 1, text: 'Hello' }]);
+    expect(tokenize('# Hello')).toEqual([
+      { type: 'Heading', level: 1, text: 'Hello' },
+    ]);
   });
 
   it('should tokenize an H2 heading', () => {
-    expect(tokenize('## Hello')).toEqual([{ type: 'Heading', level: 2, text: 'Hello' }]);
+    expect(tokenize('## Hello')).toEqual([
+      { type: 'Heading', level: 2, text: 'Hello' },
+    ]);
   });
 
   it('should tokenize an H6 heading', () => {
-    expect(tokenize('###### Deep')).toEqual([{ type: 'Heading', level: 6, text: 'Deep' }]);
+    expect(tokenize('###### Deep')).toEqual([
+      { type: 'Heading', level: 6, text: 'Deep' },
+    ]);
   });
 
   it('should NOT tokenize 7 hashes as a heading', () => {
@@ -41,11 +50,15 @@ describe('tokenize', () => {
   // ─── UnorderedListItem ─────────────────────────────────────────────────────
 
   it('should tokenize a dash list item', () => {
-    expect(tokenize('- item')).toEqual([{ type: 'UnorderedListItem', text: 'item' }]);
+    expect(tokenize('- item')).toEqual([
+      { type: 'UnorderedListItem', text: 'item' },
+    ]);
   });
 
   it('should tokenize an asterisk list item', () => {
-    expect(tokenize('* item')).toEqual([{ type: 'UnorderedListItem', text: 'item' }]);
+    expect(tokenize('* item')).toEqual([
+      { type: 'UnorderedListItem', text: 'item' },
+    ]);
   });
 
   // ─── OrderedListItem ───────────────────────────────────────────────────────
@@ -73,7 +86,9 @@ describe('tokenize', () => {
   // ─── Paragraph ─────────────────────────────────────────────────────────────
 
   it('should tokenize a plain text line as Paragraph', () => {
-    expect(tokenize('Hello world')).toEqual([{ type: 'Paragraph', text: 'Hello world' }]);
+    expect(tokenize('Hello world')).toEqual([
+      { type: 'Paragraph', text: 'Hello world' },
+    ]);
   });
 
   // ─── CodeBlock ─────────────────────────────────────────────────────────────
