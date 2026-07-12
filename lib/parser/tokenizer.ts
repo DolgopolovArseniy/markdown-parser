@@ -17,6 +17,7 @@ import type { Token } from './types';
 
 const HEADING_REGEX = /^(#{1,6}) (.+)/; // начинается с 1–6 '#', пробел, текст
 const UNORDERED_LIST_REGEX = /^[-*] (.+)/; // начинается с '-' или '*', пробел, текст
+const ORDERED_LIST_REGEX = /^(\d+)\. (.+)/; // начинается с числа, точка, пробел, текст
 
 export function tokenize(rawText: string): Token[] {
   const lines = rawText.split('\n');
@@ -37,6 +38,15 @@ export function tokenize(rawText: string): Token[] {
     if (unorderedListItemMatch) {
       const text = unorderedListItemMatch[1];
       tokens.push({ type: 'UnorderedListItem', text });
+
+      return;
+    }
+
+    const orderedListItemMatch = line.match(ORDERED_LIST_REGEX);
+    if (orderedListItemMatch) {
+      const listIndex = +orderedListItemMatch[1];
+      const text = orderedListItemMatch[2];
+      tokens.push({ type: 'OrderedListItem', listIndex, text });
 
       return;
     }
