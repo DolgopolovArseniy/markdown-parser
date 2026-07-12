@@ -14,8 +14,24 @@ import type { Token } from './types';
  * @param rawText - исходный текст в формате Markdown
  * @returns Token[] - плоский массив токенов
  */
+
+const HEADING_REGEX = /^(#{1,6}) (.+)/; // начинается с 1–6 '#', пробел, текст
+
 export function tokenize(rawText: string): Token[] {
-  // TODO: implement
-  void rawText;
+  const lines = rawText.split('\n');
+  const tokens: Token[] = [];
+
+  lines.forEach((line) => {
+    const headingMatch = line.match(HEADING_REGEX);
+
+    if (headingMatch) {
+      const level = headingMatch[1].length as 1 | 2 | 3 | 4 | 5 | 6;
+      const text = headingMatch[2];
+      tokens.push({ type: 'Heading', level, text });
+
+      return;
+    }
+  });
+
   return [];
 }
