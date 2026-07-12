@@ -85,6 +85,8 @@ export function tokenize(rawText: string): Token[] {
 
       return;
     }
+
+    tokens.push({ type: 'Paragraph', text: line });
   });
 
   if (isInCodeBlock && codeLines.length > 0) {
