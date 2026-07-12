@@ -7,5 +7,18 @@
 //
 // TODO: определить типы Token и AST-узлов вручную
 
-export type Token = never; // TODO: заменить на discriminated union (тип токена)
+export type Token =
+  | { type: 'Heading'; level: 1 | 2 | 3 | 4 | 5 | 6; text: string }
+  | { type: 'Paragraph'; text: string }
+  | {
+      type: 'UnorderedListItem';
+      text: string;
+    }
+  | {
+      type: 'OrderedListItem';
+      listIndex: number;
+      text: string;
+    }
+  | { type: 'CodeBlock'; text: string }
+  | { type: 'BlankLine' };
 export type AstNode = never; // TODO: заменить на discriminated union (узел AST)
