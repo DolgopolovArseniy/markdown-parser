@@ -37,10 +37,6 @@ export function parseBlocks(tokens: Token[]): AstNode {
   function closeCurrentBlock() {
     if (!currentBlock) return;
 
-    if (currentBlock.type === 'Paragraph') {
-      currentBlock.text += '\n';
-    }
-
     documentNode.children.push(currentBlock);
     currentBlock = null;
   }
