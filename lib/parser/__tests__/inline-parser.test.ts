@@ -5,6 +5,81 @@ describe('parseInline', () => {
   it('should return an empty array for empty input', () => {
     expect(parseInline('')).toEqual([]);
   });
+
+  it('should parse plain text without formatting', () => {
+    expect(parseInline('Hello world')).toEqual([
+      { type: 'Text', value: 'Hello world' },
+    ]);
+  });
+
+  it('should parse standard bold markdown', () => {
+    expect(parseInline('**bold**')).toEqual([
+      { type: 'Bold', children: [{ type: 'Text', value: 'bold' }] },
+    ]);
+  });
+
+  it('should parse standard italic markdown', () => {
+    expect(parseInline('*italic*')).toEqual([
+      { type: 'Italic', children: [{ type: 'Text', value: 'italic' }] },
+    ]);
+  });
+
+  it('should parse standard code markdown', () => {
+    expect(parseInline('`code`')).toEqual([
+      { type: 'InlineCode', value: 'code' },
+    ]);
+  });
+
+  it('should parse a flat link', () => {
+    expect(parseInline('[google](https://google.com)')).toEqual([
+      {
+        type: 'Link',
+        url: 'https://google.com',
+        children: [{ type: 'Text', value: 'google' }],
+      },
+    ]);
+  });
+
+  it('should parse a link recursively containing other formats', () => {
+    expect(parseInline('[google with **bold** and *italic*](url)')).toEqual([
+      {
+        type: 'Link',
+        url: 'url',
+        children: [
+          { type: 'Text', value: 'google with ' },
+          { type: 'Bold', children: [{ type: 'Text', value: 'bold' }] },
+          { type: 'Text', value: ' and ' },
+          { type: 'Italic', children: [{ type: 'Text', value: 'italic' }] },
+        ],
+      },
+    ]);
+  });
+
+  it('should parse mixed inline contents', () => {
+    expect(parseInline('Hello **bold** and *italic* and `code`!')).toEqual([
+      { type: 'Text', value: 'Hello ' },
+      { type: 'Bold', children: [{ type: 'Text', value: 'bold' }] },
+      { type: 'Text', value: ' and ' },
+      { type: 'Italic', children: [{ type: 'Text', value: 'italic' }] },
+      { type: 'Text', value: ' and ' },
+      { type: 'InlineCode', value: 'code' },
+      { type: 'Text', value: '!' },
+    ]);
+  });
+
+  it('should treat unmatched markers as plain text', () => {
+    expect(parseInline('**bold')).toEqual([{ type: 'Text', value: '**bold' }]);
+    expect(parseInline('foo * bar')).toEqual([{ type: 'Text', value: 'foo * bar' }]);
+    expect(parseInline('`code')).toEqual([{ type: 'Text', value: '`code' }]);
+  });
+
+  it('should handle unmatched nested delimiters according to greedy tokenization rules', () => {
+    // ***bolditalic*** parses as Bold containing *bolditalic and trailing text *
+    expect(parseInline('***bolditalic***')).toEqual([
+      { type: 'Bold', children: [{ type: 'Text', value: '*bolditalic' }] },
+      { type: 'Text', value: '*' },
+    ]);
+  });
 });
 
 describe('inlineTokenize', () => {
