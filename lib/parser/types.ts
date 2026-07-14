@@ -60,3 +60,16 @@ export type AstNode =
       children: OrderedListItemNode[];
     }
   | CodeBlockNode;
+
+export type InlineToken =
+  | { type: 'BoldMarker'; pos: number; canOpen: boolean; canClose: boolean }
+  | { type: 'ItalicMarker'; pos: number; canOpen: boolean; canClose: boolean }
+  | { type: 'CodeMarker'; pos: number; canOpen: boolean; canClose: boolean };
+
+export type InlineNode =
+  | { type: 'Text'; value: string }
+  | { type: 'Bold'; children: InlineNode[] }
+  | { type: 'Italic'; children: InlineNode[] }
+  | { type: 'InlineCode'; value: string }
+  | { type: 'Link'; url: string; children: InlineNode[] };
+
