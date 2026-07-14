@@ -147,14 +147,16 @@ export function parseInline(rawText: string): InlineNode[] {
           const content = rawText.substring(i + markerLength, closingToken.pos);
 
           if (token.type === 'BoldMarker') {
+            const innerNodes = parseInline(content);
             nodes.push({
               type: 'Bold',
-              children: [{ type: 'Text', value: content }],
+              children: innerNodes,
             });
           } else if (token.type === 'ItalicMarker') {
+            const innerNodes = parseInline(content);
             nodes.push({
               type: 'Italic',
-              children: [{ type: 'Text', value: content }],
+              children: innerNodes,
             });
           } else if (token.type === 'CodeMarker') {
             nodes.push({
