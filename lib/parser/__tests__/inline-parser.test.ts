@@ -80,6 +80,46 @@ describe('parseInline', () => {
       { type: 'Text', value: '*' },
     ]);
   });
+
+  it('should recursively parse nested formatting inside Bold and Italic', () => {
+    // Link inside Bold
+    expect(parseInline('**[text](url)**')).toEqual([
+      {
+        type: 'Bold',
+        children: [
+          {
+            type: 'Link',
+            url: 'url',
+            children: [{ type: 'Text', value: 'text' }],
+          },
+        ],
+      },
+    ]);
+
+    // Italic inside Bold
+    expect(parseInline('**bold *italic* bold**')).toEqual([
+      {
+        type: 'Bold',
+        children: [
+          { type: 'Text', value: 'bold ' },
+          { type: 'Italic', children: [{ type: 'Text', value: 'italic' }] },
+          { type: 'Text', value: ' bold' },
+        ],
+      },
+    ]);
+
+    // Bold inside Italic
+    expect(parseInline('*italic **bold** italic*')).toEqual([
+      {
+        type: 'Italic',
+        children: [
+          { type: 'Text', value: 'italic ' },
+          { type: 'Bold', children: [{ type: 'Text', value: 'bold' }] },
+          { type: 'Text', value: ' italic' },
+        ],
+      },
+    ]);
+  });
 });
 
 describe('inlineTokenize', () => {
