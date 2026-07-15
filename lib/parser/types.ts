@@ -111,14 +111,3 @@ export type DocumentNode = {
     | CodeBlockNode
   )[];
 };
-
-export type AstNode =
-  | DocumentNode
-  | HeadingNode
-  | ParagraphNode
-  | UnorderedListNode
-  | OrderedListNode
-  | CodeBlockNode
-  | UnorderedListItemNode
-  | OrderedListItemNode
-  | InlineNode;
