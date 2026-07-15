@@ -12,12 +12,12 @@ describe('parseBlocks', () => {
   });
 
   it('should parse a single Heading token', () => {
-    const tokens: Token[] = [{ type: 'Heading', level: 1, text: 'Hello World' }];
+    const tokens: Token[] = [
+      { type: 'Heading', level: 1, text: 'Hello World' },
+    ];
     expect(parseBlocks(tokens)).toEqual({
       type: 'Document',
-      children: [
-        { type: 'Heading', level: 1, text: 'Hello World' },
-      ],
+      children: [{ type: 'Heading', level: 1, text: 'Hello World' }],
     });
   });
 
@@ -25,22 +25,18 @@ describe('parseBlocks', () => {
     const tokens: Token[] = [{ type: 'CodeBlock', text: 'const x = 1;' }];
     expect(parseBlocks(tokens)).toEqual({
       type: 'Document',
-      children: [
-        { type: 'CodeBlock', text: 'const x = 1;' },
-      ],
+      children: [{ type: 'CodeBlock', text: 'const x = 1;' }],
     });
   });
 
-  it('should group consecutive Paragraph tokens into a single paragraph node with a trailing newline', () => {
+  it('should group consecutive Paragraph tokens into a single paragraph node', () => {
     const tokens: Token[] = [
       { type: 'Paragraph', text: 'First line' },
       { type: 'Paragraph', text: 'Second line' },
     ];
     expect(parseBlocks(tokens)).toEqual({
       type: 'Document',
-      children: [
-        { type: 'Paragraph', text: 'First line\nSecond line\n' },
-      ],
+      children: [{ type: 'Paragraph', text: 'First line\nSecond line' }],
     });
   });
 
@@ -91,8 +87,8 @@ describe('parseBlocks', () => {
     expect(parseBlocks(tokens)).toEqual({
       type: 'Document',
       children: [
-        { type: 'Paragraph', text: 'Para 1\n' },
-        { type: 'Paragraph', text: 'Para 2\n' },
+        { type: 'Paragraph', text: 'Para 1' },
+        { type: 'Paragraph', text: 'Para 2' },
       ],
     });
   });
@@ -106,7 +102,7 @@ describe('parseBlocks', () => {
     expect(parseBlocks(tokens)).toEqual({
       type: 'Document',
       children: [
-        { type: 'Paragraph', text: 'Some text\n' },
+        { type: 'Paragraph', text: 'Some text' },
         {
           type: 'UnorderedList',
           children: [{ type: 'UnorderedListItem', text: 'Bullet point' }],

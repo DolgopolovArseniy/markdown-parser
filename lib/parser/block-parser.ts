@@ -10,11 +10,10 @@
 
 import type {
   Token,
-  AstNode,
-  DocumentNode,
-  ParagraphNode,
-  UnorderedListItemNode,
-  OrderedListItemNode,
+  DocumentBlockNode,
+  ParagraphBlockNode,
+  UnorderedListBlockNode,
+  OrderedListBlockNode,
 } from './types';
 
 /**
@@ -22,17 +21,15 @@ import type {
  * @param tokens - плоский Token[], полученный от tokenize()
  * @returns AstNode - корневой узел Document
  */
-export function parseBlocks(tokens: Token[]): AstNode {
-  const documentNode: DocumentNode = {
+export function parseBlocks(tokens: Token[]): DocumentBlockNode {
+  const documentNode: DocumentBlockNode = {
     type: 'Document',
     children: [],
   };
 
   let currentBlock:
-    | ParagraphNode
-    | { type: 'UnorderedList'; children: UnorderedListItemNode[] }
-    | { type: 'OrderedList'; children: OrderedListItemNode[] }
-    | null = null;
+    ParagraphBlockNode | UnorderedListBlockNode | OrderedListBlockNode | null =
+    null;
 
   function closeCurrentBlock() {
     if (!currentBlock) return;
