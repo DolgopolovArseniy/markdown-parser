@@ -1,10 +1,26 @@
 'use client';
 
+import { useRef } from 'react';
+
 export default function HomePage() {
-  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    alert(`Parsing logic will be integrated next.`);
+    const file = fileInputRef.current?.files?.[0];
+
+    const response = await fetch('/api/parse', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/markdown',
+      },
+
+      body: file,
+    });
+
+    const data = await response.json();
+    console.log(data);
   };
 
   return (
@@ -30,7 +46,12 @@ export default function HomePage() {
       >
         <div className="retro-file-input-container">
           <span style={{ fontSize: '14px' }}>SELECT .MD FILE TO PARSE</span>
-          <input type="file" accept=".md" className="retro-file-input" />
+          <input
+            type="file"
+            accept=".md"
+            className="retro-file-input"
+            ref={fileInputRef}
+          />
         </div>
 
         <button type="submit" className="parse-button">

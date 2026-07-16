@@ -45,7 +45,7 @@ function resolveOrderedListItem(
   };
 }
 
-export function parse(rawMarkdown: string): DocumentNode {
+export function parseMarkdown(rawMarkdown: string): DocumentNode {
   // TODO: implement — вызвать tokenize(), parseBlocks(), применить parseInline()
   const tokens = tokenize(rawMarkdown);
   const initialAst = parseBlocks(tokens);
