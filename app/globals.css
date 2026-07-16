@@ -1,49 +1,279 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  border-radius: 0 !important; /* Force retro sharp corners everywhere */
 }
 
-a {
-  color: inherit;
+html,
+body {
+  height: 100%;
+  background-color: #000000;
+  color: #ffffff;
+  font-family: "MS Gothic", "MS ゴシック", monospace;
+  font-size: 16px;
+  font-smooth: never;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Retro Title Styling */
+.site-title {
+  color: #bc002d;
+  font-family: "MS Gothic", "MS ゴシック", monospace;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
   text-decoration: none;
+  display: inline-block;
+  user-select: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+.site-title .title-ja {
+  display: none;
+}
+
+.site-title:hover .title-en {
+  display: none;
+}
+
+.site-title:hover .title-ja {
+  display: inline;
+}
+
+/* Sidebar Navigation Links */
+.nav-link {
+  color: #ff00ff;
+  text-decoration: none;
+  font-family: "MS Gothic", "MS ゴシック", monospace;
+  font-weight: bold;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+  background-color: #ff00ff;
+  color: #000000;
+}
+
+.nav-link.active {
+  text-decoration: underline;
+}
+
+/* Retro Buttons */
+.parse-button {
+  font-family: "MS Gothic", "MS ゴシック", monospace;
+  font-size: 16px;
+  font-smooth: never;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: none;
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  padding: 8px 24px;
+  cursor: pointer;
+  display: inline-grid;
+  place-items: center;
+  position: relative;
+  user-select: none;
+}
+
+.parse-button span {
+  grid-area: 1 / 1;
+}
+
+.parse-button .btn-ja {
+  visibility: hidden;
+}
+
+.parse-button:hover {
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+.parse-button:hover .btn-en {
+  visibility: hidden;
+}
+
+.parse-button:hover .btn-ja {
+  visibility: visible;
+}
+
+/* Retro File Input Styling */
+.retro-file-input-container {
+  border: 1px dashed #ffffff;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 450px;
+}
+
+.retro-file-input {
+  font-family: "MS Gothic", "MS ゴシック", monospace;
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  padding: 6px;
+  margin-top: 12px;
+  width: 100%;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.retro-file-input::-webkit-file-upload-button {
+  font-family: "MS Gothic", "MS ゴシック", monospace;
+  background: #ffffff;
+  color: #000000;
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.retro-file-input::-webkit-file-upload-button:hover {
+  background: #ff00ff;
+  color: #000000;
+}
+
+/* Page Layout Components */
+.retro-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100vw;
+}
+
+.retro-sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  border-right: 1px solid #ffffff;
+  background-color: #000000;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.retro-sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ffffff;
+  padding-bottom: 12px;
+}
+
+.retro-sidebar-close-btn {
+  background: none;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  padding: 2px 6px;
+  cursor: pointer;
+  font-family: "MS Gothic", "MS ゴシック", monospace;
+  font-size: 14px;
+}
+
+.retro-sidebar-close-btn:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.retro-sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+}
+
+.retro-content-area {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #000000;
+}
+
+.retro-header-bar {
+  padding: 16px;
+  border-bottom: 1px solid #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 58px;
+}
+
+.retro-sidebar-open-btn {
+  background: none;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-family: "MS Gothic", "MS ゴシック", monospace;
+  font-size: 14px;
+}
+
+.retro-sidebar-open-btn:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.retro-main-content {
+  flex-grow: 1;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Centered content block for index page */
+.centered-content {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+  border: 1px solid #ffffff;
+  padding: 32px 24px;
+}
+
+/* Simple retro list decorations */
+.retro-list {
+  list-style-type: square;
+  margin-left: 20px;
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .retro-container {
+    flex-direction: column;
+  }
+
+  .retro-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+    width: 240px;
+    box-shadow: 5px 0 0 #ffffff;
+  }
+
+  .retro-sidebar-close-btn {
+    padding: 4px 8px;
   }
 }

@@ -1,18 +1,43 @@
-// app/page.tsx
-// Главная страница: загрузка .md файла, отправка на /api/parse, получение AST, рендер.
-//
-// TODO: implement
-//   1. Добавить 'use client'
-//   2. Обработчик выбора файла -> POST /api/parse с FormData
-//   3. Получение AST из ответа
-//   4. Передача AST в <MarkdownRenderer />
+'use client';
 
 export default function HomePage() {
+  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    alert(`Parsing logic will be integrated next.`);
+  };
+
   return (
-    <main>
-      <h1>Markdown Parser</h1>
-      {/* TODO: добавить <input type="file" />, отправку на /api/parse и рендер через <MarkdownRenderer /> */}
-      <p>Загрузи .md файл для парсинга.</p>
-    </main>
+    <div className="centered-content">
+      <h2
+        style={{
+          marginBottom: '16px',
+          borderBottom: '1px solid #ffffff',
+          paddingBottom: '8px',
+          width: '100%',
+        }}
+      >
+        [FILE UPLOAD / ファイルアップロード]
+      </h2>
+      <form
+        onSubmit={handleSubmit}
+        style={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <div className="retro-file-input-container">
+          <span style={{ fontSize: '14px' }}>SELECT .MD FILE TO PARSE</span>
+          <input type="file" accept=".md" className="retro-file-input" />
+        </div>
+
+        <button type="submit" className="parse-button">
+          <span className="btn-en">Parse</span>
+          <span className="btn-ja">パース</span>
+        </button>
+      </form>
+    </div>
   );
 }
