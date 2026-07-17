@@ -149,8 +149,9 @@ body {
 /* Page Layout Components */
 .retro-container {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
   width: 100vw;
+  overflow: hidden;
 }
 
 .retro-sidebar {
@@ -162,6 +163,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  height: 100vh;
+  overflow-y: auto;
 }
 
 .retro-sidebar-header {
@@ -199,8 +202,9 @@ body {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
   background-color: #000000;
+  overflow: hidden;
 }
 
 .retro-header-bar {
@@ -232,6 +236,7 @@ body {
   padding: 24px;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 /* Centered content block for index page */
@@ -255,6 +260,116 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+/* ===== Markdown Rendered Content ===== */
+.md-content {
+  line-height: 1.7;
+  max-width: 800px;
+  width: 100%;
+}
+
+.md-content h1,
+.md-content h2,
+.md-content h3,
+.md-content h4,
+.md-content h5,
+.md-content h6 {
+  color: #ffffff;
+  margin-top: 24px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #ffffff;
+  padding-bottom: 6px;
+}
+
+.md-content h1 {
+  font-size: 28px;
+}
+
+.md-content h2 {
+  font-size: 24px;
+}
+
+.md-content h3 {
+  font-size: 20px;
+}
+
+.md-content h4,
+.md-content h5,
+.md-content h6 {
+  font-size: 18px;
+  border-bottom: none;
+}
+
+.md-content p {
+  margin-bottom: 12px;
+}
+
+.md-content strong {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.md-content em {
+  font-style: italic;
+}
+
+.md-content code {
+  background-color: #1a1a1a;
+  border: 1px solid #ffffff;
+  padding: 1px 4px;
+  font-family: "MS Gothic", "MS ゴシック", monospace;
+  font-size: 14px;
+}
+
+.md-content pre {
+  background-color: #0a0a0a;
+  border: 1px solid #ffffff;
+  padding: 16px;
+  margin-bottom: 12px;
+  overflow-x: auto;
+}
+
+.md-content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 14px;
+}
+
+.md-content a {
+  color: #ff00ff;
+  text-decoration: none;
+}
+
+.md-content a:hover {
+  text-decoration: underline;
+  background-color: #ff00ff;
+  color: #000000;
+}
+
+.md-content ul {
+  list-style-type: square;
+  margin-left: 24px;
+  margin-bottom: 12px;
+}
+
+.md-content ol {
+  margin-left: 24px;
+  margin-bottom: 12px;
+}
+
+.md-content li {
+  margin-bottom: 4px;
+}
+
+/* Document not found fallback */
+.md-not-found {
+  color: #bc002d;
+  border: 1px solid #bc002d;
+  padding: 16px;
+  text-align: center;
+  margin: auto;
 }
 
 /* Mobile Responsiveness */

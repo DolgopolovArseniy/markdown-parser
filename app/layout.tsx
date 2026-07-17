@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import LayoutWrapper from './components/LayoutWrapper';
+import { MdProvider } from './context/MdContext';
 
 export const metadata: Metadata = {
   title: '.md parser',
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
-        <LayoutWrapper>{children}</LayoutWrapper>
+        <MdProvider>
+          <LayoutWrapper>{children}</LayoutWrapper>
+        </MdProvider>
       </body>
     </html>
   );

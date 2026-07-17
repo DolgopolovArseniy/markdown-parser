@@ -1,26 +1,43 @@
 'use client';
 
 import { useRef } from 'react';
+import { useMd } from './context/MdContext';
+import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { addParsedMd } = useMd();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const file = fileInputRef.current?.files?.[0];
+    try {
+      const file = fileInputRef.current?.files?.[0];
 
-    const response = await fetch('/api/parse', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'text/markdown',
-      },
+      if (!file) throw new Error('Attach a file pleaaaaase :(');
 
-      body: file,
-    });
+      const response = await fetch('/api/parse', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/markdown',
+        },
 
-    const data = await response.json();
-    console.log(data);
+        body: file,
+      });
+
+      if (!response.ok) throw new Error('Something went wrong :(');
+
+      const { data: ast } = await response.json();
+
+      const parsedMd = { fileName: file?.name, ast };
+      const newId = crypto.randomUUID();
+
+      addParsedMd(newId, parsedMd);
+      router.push(`/${newId}`);
+    } catch (error) {
+      if (error instanceof Error) alert(error.message);
+    }
   };
 
   return (

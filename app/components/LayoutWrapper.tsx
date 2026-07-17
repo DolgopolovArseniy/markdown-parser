@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useMd } from '../context/MdContext';
 
 export default function LayoutWrapper({
   children,
@@ -11,6 +12,7 @@ export default function LayoutWrapper({
 }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const pathname = usePathname();
+  const { parsedMds } = useMd();
 
   // Load sidebar state from localStorage on mount
   useEffect(() => {
@@ -61,6 +63,16 @@ export default function LayoutWrapper({
                   [About/Docs]
                 </Link>
               </li>
+              {Object.entries(parsedMds).map(([id, md]) => (
+                <li key={id}>
+                  <Link
+                    href={`/${id}`}
+                    className={`nav-link ${pathname === '/about' ? 'active' : ''}`}
+                  >
+                    [{md.fileName.split('.')[0]}]
+                  </Link>
+                </li>
+              ))}
             </ul>
           </nav>
         </aside>
